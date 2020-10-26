@@ -1,0 +1,39 @@
+<ion-toolbar #toolbar color="transparent">
+  <ion-buttons slot="secondary">
+    <ion-button color="primary" routerLink="/search">
+      <ion-icon slot="start" name="search"></ion-icon>
+    </ion-button>
+  </ion-buttons>
+  <ion-buttons slot="primary">
+    <ion-button>
+      <ion-icon slot="end" name="heart"></ion-icon>
+    </ion-button>
+    <ion-button>
+      <ion-icon slot="end" name="notifications"></ion-icon>
+    </ion-button>
+  </ion-buttons>
+</ion-toolbar>
+
+<ion-content fullscreen="true" [style.--padding-top]="0">
+  <ng-container *ngIf="productsState.matches('loading')">
+    <ion-skeleton-text animated style="margin-top: 0; width: 100%; height: 250px"></ion-skeleton-text>
+
+    <ion-card>
+      <div class="ion-padding">
+        <ion-skeleton-text animated style="width: 60%"></ion-skeleton-text>
+        <ion-skeleton-text animated></ion-skeleton-text>
+        <ion-skeleton-text animated style="width: 88%"></ion-skeleton-text>
+        <ion-skeleton-text animated style="width: 70%"></ion-skeleton-text>
+        <ion-skeleton-text animated style="width: 60%"></ion-skeleton-text>
+      </div>
+    </ion-card>
+  </ng-container>
+
+  <ng-container *ngIf="productsState.matches('success')">
+    <app-slides></app-slides>
+
+    <app-products-cards-grid [data]="productsState.context.products"></app-products-cards-grid>
+    <app-product-card-fluid-list [data]="productsState.context.products"></app-product-card-fluid-list>
+  </ng-container>
+
+</ion-content>

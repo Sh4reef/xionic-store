@@ -1,0 +1,27 @@
+{
+  "products": [
+    {
+      "id": "product1",
+      "name": "Apple iPhone X 256 GB",
+      "price": 1149
+    },
+    {
+      "id": "product2",
+      "name": "Samsung Galaxy A10",
+      "price": 188.67
+    },
+    {
+      "id": "product3",
+      "name": "Apple MacBook Pro 2017",
+      "price": 1299
+    }
+  ],
+  "carts": [
+    {
+      "id": 1
+    },
+    {
+      "id": 2
+    }
+  ]
+}

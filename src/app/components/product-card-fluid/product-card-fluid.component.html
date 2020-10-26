@@ -1,0 +1,21 @@
+<ion-card>
+  <ion-grid>
+    <ion-row>
+      <ion-col>
+        <ion-thumbnail [style.--size]="'100%'">
+          <img src="/assets/100x100.png">
+        </ion-thumbnail>
+      </ion-col>
+      <ion-col size="8">
+        <ion-card-header>
+          <ion-card-subtitle>{{data.name}}</ion-card-subtitle>
+          <ion-card-title>{{data.price | currency}}</ion-card-title>
+        </ion-card-header>
+
+        <ion-card-content>
+          Review
+        </ion-card-content>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-card>

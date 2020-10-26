@@ -1,0 +1,14 @@
+<ion-grid class="ion-padding">
+  <ion-row>
+    <ion-col>
+      <ion-text color="dark">
+        <h5>{{headline || 'Product List Headline Here'}}</h5>
+      </ion-text>
+    </ion-col>
+  </ion-row>
+  <ion-row>
+    <ion-col *ngFor="let product of data" size="6">
+      <app-product-card [data]="product"></app-product-card>
+    </ion-col>
+  </ion-row>
+</ion-grid>
