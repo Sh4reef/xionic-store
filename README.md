@@ -5,6 +5,25 @@ This project mainly for learning how to use [XState](https://xstate.js.org) to i
 # Requirements
 - Backend [Strapi-Store](https://github.com/Sh4reef/strapi-store)
 
+## Installation
+- Install Ionic CLI
+```
+npm install -g @ionic/cli
+```
+
+- Within the project directory
+```
+npm i
+```
+
+- Run
+```
+ionic serve
+or
+npm run develop
+```
+
+
 ## Todo
 
 - Integrate Xendit Payment Gateway API (test mode)
