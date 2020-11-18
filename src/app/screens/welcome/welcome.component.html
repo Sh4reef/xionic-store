@@ -1,0 +1,16 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Welcome</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<div class="ion-padding">
+  <form [formGroup]="loginForm" (onSubmit)="login()">
+    <ion-input formControlName="identifier" placeholder="Username/Email" required></ion-input>
+    <ion-input formControlName="password" type="password" placeholder="Password" required></ion-input>
+    <ion-button expand="block" (click)="login()">
+      <span *ngIf="[AUTHENTICATING_FAILURE, IS_NOT_AUTHENTICATED].some(userState.matches)">Login</span>
+      <ion-spinner *ngIf="[AUTHENTICATING].some(userState.matches)"></ion-spinner>
+    </ion-button>
+  </form>
+</div>

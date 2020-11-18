@@ -18,9 +18,13 @@
   ],
   "carts": [
     {
+      "name": "Apple iPhone X 256 GB",
+      "price": 1149,
       "id": 1
     },
     {
+      "name": "Apple MacBook Pro 2017",
+      "price": 1299,
       "id": 2
     }
   ]

@@ -1,0 +1,19 @@
+.app-main-categories {
+  display: flex;
+  overflow-x: auto;
+  // scroll-snap-type: x mandatory;
+
+  ion-button {
+    // width: 200px;
+    // flex: 0 0 125px;
+    // scroll-snap-align: center;
+
+    &:first-of-type {
+      padding-left: 20px;
+    }
+
+    &:last-of-type {
+      padding-right: 20px;
+    }
+  }
+}

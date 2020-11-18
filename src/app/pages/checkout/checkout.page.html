@@ -1,0 +1,57 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button text=""></ion-back-button>
+    </ion-buttons>
+    <ion-title>checkout</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-card>
+    <ion-card-header color="light">
+      <ion-grid class="ion-no-padding">
+        <ion-row class="ion-align-items-center ion-no-padding">
+          <ion-col>
+            <ion-card-subtitle class="ion-no-margin">
+              Shipping Address
+            </ion-card-subtitle>
+          </ion-col>
+          <ion-col class="ion-text-end ion-no-padding">
+            <ion-button size="small">
+              Change
+            </ion-button>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-grid class="ion-padding-vertical ion-no-padding" [style.padding-bottom]="0">
+        <ion-row>
+          <ion-col>
+            <ion-text color="dark">
+              <h5>Nongsa Digital Park</h5>
+            </ion-text>
+          </ion-col>
+          <ion-col>
+            <ion-badge color="secondary">22</ion-badge>
+          </ion-col>
+        </ion-row>
+        <ion-row class="ion-padding-vertical" [style.--ion-padding]="'5px'">
+          <ion-col>
+            <ion-text>
+              <p>Syarif (082252910795)</p>
+            </ion-text>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col>
+            <ion-text>
+              <p>Jl. Hang Lekiu, Kecamatan Nongsa, Kota Batam, Kepulauan Riau, 29465</p>
+            </ion-text>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-card-content>
+  </ion-card>
+</ion-content>

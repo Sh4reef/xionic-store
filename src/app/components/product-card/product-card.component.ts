@@ -8,9 +8,15 @@ import { Component, Input, OnInit } from '@angular/core';
 export class ProductCardComponent implements OnInit {
   // @TODO: Product type must be implemented later
   @Input() data: any;
+  // @TODO: Variation type must be implemented later
+  selectedVariation: object;
 
   constructor() { }
 
-  ngOnInit() {}
+  ngOnInit() {
+    if (this.data.variations.length) {
+      this.selectedVariation = Object.assign({}, this.data.variations[0]);
+    }
+  }
 
 }

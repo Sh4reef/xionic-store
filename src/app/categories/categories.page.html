@@ -1,0 +1,34 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>categories</ion-title>
+    <ion-buttons>
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<div #categories class="app-main-categories">
+  <ion-button fill="clear">Men</ion-button>
+  <ion-button fill="clear">Women</ion-button>
+  <ion-button fill="clear">Kids</ion-button>
+  <ion-button fill="clear">Health & Beauty</ion-button>
+  <ion-button fill="clear">Games & Hobby</ion-button>
+</div>
+
+<ion-content>
+  <ion-item [routerLink]="['men', 'pants']">
+    <ion-label>
+      Pants
+    </ion-label>
+  </ion-item>
+  <ion-item [routerLink]="['men', 'kemeja']">
+    <ion-label>
+      Kemeja
+    </ion-label>
+  </ion-item>
+  <ion-item [routerLink]="['men', 'shoes']">
+    <ion-label>
+      Shoes
+    </ion-label>
+  </ion-item>
+</ion-content>

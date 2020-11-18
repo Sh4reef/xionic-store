@@ -1,0 +1,22 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>
+      Settings
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-item button detail="false" routerLink="/profile">
+    <ion-icon slot="end" name="person-outline"></ion-icon>
+    <ion-label>My Profile</ion-label>
+  </ion-item>
+  <ion-item button detail="false">
+    <ion-icon slot="end" name="map-outline"></ion-icon>
+    <ion-label>My Addresses</ion-label>
+  </ion-item>
+  <ion-item button detail="false" (click)="logout()">
+    <ion-icon slot="end" name="log-out-outline"></ion-icon>
+    <ion-label>Logout</ion-label>
+  </ion-item>
+</ion-content>

@@ -1,6 +1,6 @@
 <ion-header>
   <ion-toolbar>
-    <ion-buttons>
+    <ion-buttons slot="start">
       <ion-back-button text=""></ion-back-button>
     </ion-buttons>
     <ion-title>Product Detail</ion-title>
@@ -8,10 +8,10 @@
 </ion-header>
 
 <ion-content>
-  <ng-container *ngIf="productsState.matches('loading')">
+  <ng-container *ngIf="productsState.matches(LOADING)">
     <ion-skeleton-text animated style="margin-top: 0; width: 100%; height: 250px"></ion-skeleton-text>
   </ng-container>
-  <ng-container *ngIf="productsState.matches('success')">
+  <ng-container *ngIf="productsState.matches(SUCCESS)">
     <app-slides></app-slides>
     <ion-text>
       <h5 class="ion-padding">Product Name Here</h5>
@@ -22,7 +22,7 @@
 <ion-footer>
   <ion-toolbar>
     <ion-buttons slot="end">
-      <ion-button expand="block" fill="outline">Add To Cart</ion-button>
+      <ion-button expand="block" fill="outline" (click)="addToCart()">Add To Cart</ion-button>
     </ion-buttons>
   </ion-toolbar>
 </ion-footer>

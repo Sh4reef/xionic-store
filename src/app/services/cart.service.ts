@@ -1,82 +1,92 @@
 import {HttpClient} from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import {assign, interpret, Interpreter, Machine} from 'xstate';
+import { environment } from 'src/environments/environment';
+import {assign, interpret, Interpreter, Machine, State} from 'xstate';
+import ConstantsClassBase from '../constants';
+import {UserService} from './user.service';
+
+const SERVER_HOST = environment.serverHost;
+const SERVER_PORT = environment.serverPort;
 
 @Injectable({
   providedIn: 'root'
 })
-export class CartService {
+export class CartService extends ConstantsClassBase {
   cartInterpreter: Interpreter<any>;
+  userState: State<any>;
+  userInterpreterSubscription;
 
   constructor(
-    private http: HttpClient
+    private http: HttpClient,
+    private userService: UserService
   ) {
+    super();
+
+    this.userService.userInterpreter.subscribe((state: State<any>) => {
+      this.userState = state;
+    });
 
     const cartMachine = Machine({
       id: 'cartMachine',
-      initial: 'idle',
+      initial: this.IDLE,
       context: {
         items: undefined,
         error: undefined
       },
       states: {
-        idle: {
-          always: 'fetchingCartItems'
+        [this.IDLE]: {
+          always: this.FETCH_CART_ITEMS
         },
-        fetchingCartItems: {
-          id: 'fetchingCartItems',
-          initial: 'idle',
+        [this.FETCH_CART_ITEMS]: {
+          initial: this.IDLE,
           states: {
-            idle: {
-              always: 'loading'
+            [this.IDLE]: {
+              always: this.LOADING
             },
-            loading: {
+            [this.LOADING]: {
               invoke: {
-                id: 'getCartItems',
                 src: (context, event) => this.fetchCartItems(),
                 onDone: {
-                  target: 'success',
-                  actions: assign({items: (context, event) => event.data})
+                  target: this.SUCCESS,
+                  actions: assign({items: (context, event) => event.data.items})
                 },
                 onError: {
-                  target: 'failure',
+                  target: this.FAILURE,
                   actions: assign({error: (context, event) => event.data})
                 }
               }
             },
-            success: {},
-            failure: {}
+            [this.SUCCESS]: {},
+            [this.FAILURE]: {}
           }
         },
-        addItemToCart: {
-          id: 'addItemToCart',
-          initial: 'idle',
+        [this.ADD_ITEM_TO_CART]: {
+          initial: this.IDLE,
           states: {
-            idle: {
-              always: 'loading'
+            [this.IDLE]: {
+              always: this.LOADING
             },
-            loading: {
+            [this.LOADING]: {
               invoke: {
-                id: 'addItemToCart',
                 src: (context, event) => this.addItemToCart(event.data),
                 onDone: {
-                  target: 'success',
+                  target: this.SUCCESS,
                   actions: assign({items: (context: any, event) => [event.data, ...context.items]})
                 },
                 onError: {
-                  target: 'failure',
+                  target: this.FAILURE,
                   actions: assign({error: (context, event) => event.data})
                 }
               }
             },
-            success: {},
-            failure: {}
+            [this.SUCCESS]: {},
+            [this.FAILURE]: {}
           }
         }
       },
       on: {
-        FETCH_CART_ITEMS: 'fetchingCartItems',
-        ADD_ITEM_TO_CART: 'addItemToCart'
+        [this.FETCH_CART_ITEMS]: this.FETCH_CART_ITEMS,
+        [this.ADD_ITEM_TO_CART]: this.ADD_ITEM_TO_CART
       }
     });
 
@@ -84,11 +94,14 @@ export class CartService {
   }
 
   fetchCartItems() {
-    return this.http.get('http://localhost:3000/carts').toPromise();
+    return this.http.get(`http://${SERVER_HOST}:${SERVER_PORT}/carts/mycart`, {
+      headers: {
+        'Authorization': `Bearer ${this.userState.context.token}`
+      }
+    }).toPromise();
   }
 
   addItemToCart(data) {
-    console.log(data);
-    return this.http.post('http://localhost:3000/carts', data).toPromise();
+    return this.http.post(`http://${SERVER_HOST}:${SERVER_PORT}/carts`, data).toPromise();
   }
 }

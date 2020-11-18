@@ -1,0 +1,26 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>
+      Cart
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ng-container *ngIf="[FETCH_CART_ITEMS_SUCCESS, ADD_ITEM_TO_CART_SUCCESS].some(cartState.matches)">
+    <app-product-card-fluid-list headline="Your Items" [data]="cartState.context.items"></app-product-card-fluid-list>
+  </ng-container>
+</ion-content>
+
+<ion-footer>
+  <ion-toolbar>
+    <ion-text slot="start" class="ion-padding">
+      <h5>Total Price Here</h5>
+    </ion-text>
+    <ion-buttons slot="end" size="large" class="ion-padding">
+      <ion-button fill="solid" class="checkout-button" [routerLink]="['/checkout']">
+        CHECKOUT
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-footer>
