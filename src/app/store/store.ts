@@ -22,6 +22,7 @@ export class StorePage extends ConstantsClassBase implements OnInit, AfterViewIn
 
   ngOnInit() {
     this.productsInterpreterSubscription = this.productsService.productsInterpreter.subscribe((state: State<any>) => {
+      console.log(state);
       this.productsState = state;
     });
   }

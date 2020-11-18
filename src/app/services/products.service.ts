@@ -21,15 +21,12 @@ export class ProductsService extends ConstantsClassBase {
 
     const productsMachine = Machine({
       id: 'productsMachine',
-      initial: this.IDLE,
+      initial: this.LOADING,
       context: {
         products: Array,
         error: String
       },
       states: {
-        [this.IDLE]: {
-          always: this.LOADING
-        },
         [this.LOADING]: {
           invoke: {
             src: (context, event) => this.fetchProducts(),
@@ -39,7 +36,12 @@ export class ProductsService extends ConstantsClassBase {
             },
             onError: {
               target: this.FAILURE,
-              actions: assign({error: (context, event) => event.data})
+              actions: assign({error: (context, event) => {
+                if (event.data.status >= 400) {
+                  return event.data.error
+                }
+                return event.data.statusText;
+              }})
             }
           }
         },
@@ -52,6 +54,6 @@ export class ProductsService extends ConstantsClassBase {
   }
 
   fetchProducts() {
-    return this.http.get(`http://${SERVER_HOST}:${SERVER_PORT}/products`).toPromise();
+    return this.http.get(`http://${SERVER_HOST}:${SERVER_PORT}/productssdfsdf`).toPromise();
   }
 }

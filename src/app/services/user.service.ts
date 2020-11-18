@@ -31,15 +31,14 @@ export class UserService extends ConstantsClassBase {
 
     const userMachine = Machine({
       id: 'user',
-      initial: this.IDLE,
+      initial: this.IS_AUTHENTICATED,
       context: {
         token: this.getPersistedToken(),
         error: undefined
       },
       states: {
-        [this.IDLE]: {
-          always: this.IS_AUTHENTICATED
-        },
+        // When hard reloading the app the user machine initially will be on this state
+        // And it will make a request, there is always two possible states IS_ALREADY_AUTHENTICATED or IS_NOT_AUTHENTICATED
         [this.IS_AUTHENTICATED]: {
           invoke: {
             src: (context) => this.isAuthenticated(context),
@@ -51,37 +50,50 @@ export class UserService extends ConstantsClassBase {
             }
           }
         },
+        // This state always comes from IS_NOT_AUTHENTICATED or AUTHENTICATING_FAILURE,
+        // Where the user send a login event to the user machine
+        // Possible states are AUTHENTICATING_SUCCESS, AUTHENTICATING_FAILURE
         [this.AUTHENTICATING]: {
           invoke: {
             src: (context, event: any) => this.login(event.data),
             onDone: {
               target: this.AUTHENTICATING_SUCCESS,
               actions: [
-                assign({token: (context, event: any) => event.data.jwt}),
-                (context) => this.persistToken(context)
+                assign({error: undefined, token: (context, event: any) => event.data.jwt}),
+                (context) => this.persistToken(context),
               ]
             },
             onError: {
               target: this.AUTHENTICATING_FAILURE,
-              actions: assign({error: (context, event) => event.data.error})
+              actions: assign({error: (context, event) => {
+                if (event.data.status >= 400) {
+                  return event.data.error.message[0].messages[0].message
+                }
+                return event.data.statusText
+              }})
             }
           }
         },
+        // If the user on this state he can only send a login event which will transition to AUTHENTICATING state.
         [this.IS_NOT_AUTHENTICATED]: {
           on: {
             [this.LOGIN]: this.AUTHENTICATING
           }
         },
+        // The user can only logout if on this state
         [this.IS_ALREADY_AUTHENTICATED]: {
           on: {
             ...canLogout
           }
         },
+
+        // This is same as IS_NOT_AUTHENTICATED the user can only do login action
         [this.AUTHENTICATING_FAILURE]: {
           on: {
             [this.LOGIN]: this.AUTHENTICATING
           }
         },
+        // The user can only logout if on this state
         [this.AUTHENTICATING_SUCCESS]: {
           on: {
             ...canLogout

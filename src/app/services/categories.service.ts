@@ -21,12 +21,12 @@ export class CategoriesService extends ConstantsClassBase {
 
     const categoriesMachine = Machine({
       id: 'categoriesMachine',
-      initial: this.FETCH_CATEGORIES,
+      initial: this.LOADING,
       context: {
         categories: undefined
       },
       states: {
-        [this.FETCH_CATEGORIES]: {
+        [this.LOADING]: {
           invoke: {
             src: () => this.fetchCategories(),
             onDone: {
@@ -35,7 +35,12 @@ export class CategoriesService extends ConstantsClassBase {
             },
             onError: {
               target: this.FAILURE,
-              actions: assign({error: (context, event) => event.data})
+              actions: assign({error: (context, event) => {
+                if (event.data.status >= 400) {
+                  return event.data.error
+                }
+                return event.data.statusText;
+              }})
             }
           }
         },

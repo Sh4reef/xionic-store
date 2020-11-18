@@ -43,7 +43,7 @@ export class WelcomeComponent extends ConstantsClassBase implements OnInit, OnDe
 
       if (state.matches(this.AUTHENTICATING_FAILURE)) {
         !this.toast && await this.initializeToast();
-        this.toast.message = state.context.error.message[0].messages[0].message,
+        this.toast.message = state.context.error,
         await this.toast.present();
       }
 

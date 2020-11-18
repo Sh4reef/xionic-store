@@ -26,6 +26,7 @@ export class CartService extends ConstantsClassBase {
       this.userState = state;
     });
 
+    // possibles states IDLE, FETCH_CART_ITEMS, ADD_ITEM_TO_CART, SUCCESS, FAILURE
     const cartMachine = Machine({
       id: 'cartMachine',
       initial: this.IDLE,
@@ -35,14 +36,15 @@ export class CartService extends ConstantsClassBase {
       },
       states: {
         [this.IDLE]: {
+          // An eventless transition is a transition that is always taken when the machine is in the state where it is defined
+          // https://xstate.js.org/docs/guides/transitions.html#eventless-always-transitions
+          // It's unnecessary to have this eventless without Guarded transitions, so it's more useful for guarded transitions
+          // https://xstate.js.org/docs/guides/guards.html#guards-condition-functions
           always: this.FETCH_CART_ITEMS
         },
         [this.FETCH_CART_ITEMS]: {
-          initial: this.IDLE,
+          initial: this.LOADING,
           states: {
-            [this.IDLE]: {
-              always: this.LOADING
-            },
             [this.LOADING]: {
               invoke: {
                 src: (context, event) => this.fetchCartItems(),
@@ -61,11 +63,8 @@ export class CartService extends ConstantsClassBase {
           }
         },
         [this.ADD_ITEM_TO_CART]: {
-          initial: this.IDLE,
+          initial: this.LOADING,
           states: {
-            [this.IDLE]: {
-              always: this.LOADING
-            },
             [this.LOADING]: {
               invoke: {
                 src: (context, event) => this.addItemToCart(event.data),
